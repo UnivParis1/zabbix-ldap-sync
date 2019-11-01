@@ -366,6 +366,9 @@ class ZabbixConn(object):
             if not ldap_users and not self.deleteorphans:
                 continue
 
+            matching_groups = [g['usrgrpid'] for g in self.get_groups() if g['name'] == eachGroup]
+            if not matching_groups:
+                raise Exception("can not synchronize group %s which does not exist in zabbix" % eachGroup)
             zabbix_grpid = [g['usrgrpid'] for g in self.get_groups() if g['name'] == eachGroup].pop()
 
             zabbix_group_users = self.get_group_members(zabbix_grpid)
