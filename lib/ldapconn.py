@@ -222,7 +222,7 @@ class LDAPConn(object):
             # Skip refldap (when Active Directory used)
             # [0]==None
             if group[0]:
-                group_name = group[1]['name'][0].decode('utf8')
+                group_name = group[1]['cn'][0].decode('utf8')
                 self.logger.info("Find group %s" % group_name)
                 result_groups.append(group_name)
 
