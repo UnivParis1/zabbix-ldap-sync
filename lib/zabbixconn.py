@@ -34,7 +34,7 @@ class ZabbixConn(object):
             disable_warnings()
 
         if config.ldap_wildcard_search:
-            self.ldap_groups = ldap_conn.get_groups_with_wildcard()
+            self.ldap_groups = ldap_conn.get_groups_with_wildcard(self.ldap_groups)
 
         # Use logger to log information
         self.logger = logging.getLogger()

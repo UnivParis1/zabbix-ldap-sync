@@ -208,7 +208,7 @@ class LDAPConn(object):
             final_listing[username] = dn
         return final_listing
 
-    def get_groups_with_wildcard(self, groups_wildcard):
+    def get_groups_with_wildcard_one(self, groups_wildcard):
         self.logger.info("Search group with wildcard: %s" % groups_wildcard)
 
         filter = self.group_filter % groups_wildcard
@@ -319,17 +319,16 @@ class LDAPConn(object):
 
         return name.pop()
 
-    def get_groups_with_wildcard(self):
+    def get_groups_with_wildcard(self, ldap_groups):
         """
         Set group from LDAP with wildcard
         :return:
         """
         result_groups = []
-        ldap_conn = LDAPConn(self.ldap_uri, self.ldap_base, self.ldap_user, self.ldap_pass)
-        ldap_conn.connect()
+        self.connect()
 
-        for group in self.ldap_groups:
-            groups = ldap_conn.get_groups_with_wildcard(group)
+        for group in ldap_groups:
+            groups = self.get_groups_with_wildcard_one(group)
             result_groups = result_groups + groups
 
         if not result_groups:
